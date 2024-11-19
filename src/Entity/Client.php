@@ -45,9 +45,16 @@ class Client
     #[ORM\ManyToMany(targetEntity: adresse::class, inversedBy: 'clients')]
     private Collection $adresse;
 
+    /**
+     * @var Collection<int, employe>
+     */
+    #[ORM\ManyToMany(targetEntity: employe::class, inversedBy: 'clients')]
+    private Collection $employe;
+
     public function __construct()
     {
         $this->adresse = new ArrayCollection();
+        $this->employe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,6 +178,30 @@ class Client
     public function removeAdresse(adresse $adresse): static
     {
         $this->adresse->removeElement($adresse);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, employe>
+     */
+    public function getEmploye(): Collection
+    {
+        return $this->employe;
+    }
+
+    public function addEmploye(employe $employe): static
+    {
+        if (!$this->employe->contains($employe)) {
+            $this->employe->add($employe);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(employe $employe): static
+    {
+        $this->employe->removeElement($employe);
 
         return $this;
     }
