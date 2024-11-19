@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
@@ -36,6 +38,17 @@ class Client
 
     #[ORM\Column]
     private ?bool $role = null;
+
+    /**
+     * @var Collection<int, adresse>
+     */
+    #[ORM\ManyToMany(targetEntity: adresse::class, inversedBy: 'clients')]
+    private Collection $adresse;
+
+    public function __construct()
+    {
+        $this->adresse = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +147,30 @@ class Client
     public function setRole(bool $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, adresse>
+     */
+    public function getAdresse(): Collection
+    {
+        return $this->adresse;
+    }
+
+    public function addAdresse(adresse $adresse): static
+    {
+        if (!$this->adresse->contains($adresse)) {
+            $this->adresse->add($adresse);
+        }
+
+        return $this;
+    }
+
+    public function removeAdresse(adresse $adresse): static
+    {
+        $this->adresse->removeElement($adresse);
 
         return $this;
     }

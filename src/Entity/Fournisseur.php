@@ -28,6 +28,14 @@ class Fournisseur
     #[ORM\Column(length: 20)]
     private ?string $telephone_fourni = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fournisseur')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Adresse $adresse = null;
+
+    #[ORM\ManyToOne(inversedBy: 'fournisseurs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?produits $produit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +97,30 @@ class Fournisseur
     public function setTelephoneFourni(string $telephone_fourni): static
     {
         $this->telephone_fourni = $telephone_fourni;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): static
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getProduit(): ?produits
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?produits $produit): static
+    {
+        $this->produit = $produit;
 
         return $this;
     }
