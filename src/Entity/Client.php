@@ -51,10 +51,24 @@ class Client
     #[ORM\ManyToMany(targetEntity: employe::class, inversedBy: 'clients')]
     private Collection $employe;
 
+    /**
+     * @var Collection<int, produits>
+     */
+    #[ORM\ManyToMany(targetEntity: produits::class, inversedBy: 'clients')]
+    private Collection $commande;
+
+    /**
+     * @var Collection<int, commande>
+     */
+    #[ORM\ManyToMany(targetEntity: commande::class, inversedBy: 'clients')]
+    private Collection $prepare;
+
     public function __construct()
     {
         $this->adresse = new ArrayCollection();
         $this->employe = new ArrayCollection();
+        $this->commande = new ArrayCollection();
+        $this->prepare = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +216,54 @@ class Client
     public function removeEmploye(employe $employe): static
     {
         $this->employe->removeElement($employe);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, produits>
+     */
+    public function getCommande(): Collection
+    {
+        return $this->commande;
+    }
+
+    public function addCommande(produits $commande): static
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande->add($commande);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(produits $commande): static
+    {
+        $this->commande->removeElement($commande);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, commande>
+     */
+    public function getPrepare(): Collection
+    {
+        return $this->prepare;
+    }
+
+    public function addPrepare(commande $prepare): static
+    {
+        if (!$this->prepare->contains($prepare)) {
+            $this->prepare->add($prepare);
+        }
+
+        return $this;
+    }
+
+    public function removePrepare(commande $prepare): static
+    {
+        $this->prepare->removeElement($prepare);
 
         return $this;
     }

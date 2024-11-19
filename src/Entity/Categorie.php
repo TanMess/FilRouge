@@ -23,6 +23,14 @@ class Categorie
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description_categorie = null;
 
+    #[ORM\ManyToOne(inversedBy: 'categorie')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Produits $produits = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'SousCategorie')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?self $SousCategorie = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +68,30 @@ class Categorie
     public function setDescriptionCategorie(string $description_categorie): static
     {
         $this->description_categorie = $description_categorie;
+
+        return $this;
+    }
+
+    public function getProduits(): ?Produits
+    {
+        return $this->produits;
+    }
+
+    public function setProduits(?Produits $produits): static
+    {
+        $this->produits = $produits;
+
+        return $this;
+    }
+
+    public function getSousCategorie(): ?self
+    {
+        return $this->SousCategorie;
+    }
+
+    public function setSousCategorie(?self $SousCategorie): static
+    {
+        $this->SousCategorie = $SousCategorie;
 
         return $this;
     }

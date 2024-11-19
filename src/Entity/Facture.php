@@ -29,6 +29,10 @@ class Facture
     #[ORM\Column]
     private ?float $taux_tva = null;
 
+    #[ORM\ManyToOne(inversedBy: 'facture')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Commande $commande = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class Facture
     public function setTauxTva(float $taux_tva): static
     {
         $this->taux_tva = $taux_tva;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): static
+    {
+        $this->commande = $commande;
 
         return $this;
     }

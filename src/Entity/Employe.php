@@ -27,9 +27,23 @@ class Employe
     #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'employe')]
     private Collection $clients;
 
+    /**
+     * @var Collection<int, produits>
+     */
+    #[ORM\ManyToMany(targetEntity: produits::class, inversedBy: 'employes')]
+    private Collection $produit;
+
+    /**
+     * @var Collection<int, fournisseur>
+     */
+    #[ORM\ManyToMany(targetEntity: fournisseur::class, inversedBy: 'employes')]
+    private Collection $fournisseur;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
+        $this->produit = new ArrayCollection();
+        $this->fournisseur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +98,54 @@ class Employe
         if ($this->clients->removeElement($client)) {
             $client->removeEmploye($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, produits>
+     */
+    public function getProduit(): Collection
+    {
+        return $this->produit;
+    }
+
+    public function addProduit(produits $produit): static
+    {
+        if (!$this->produit->contains($produit)) {
+            $this->produit->add($produit);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(produits $produit): static
+    {
+        $this->produit->removeElement($produit);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, fournisseur>
+     */
+    public function getFournisseur(): Collection
+    {
+        return $this->fournisseur;
+    }
+
+    public function addFournisseur(fournisseur $fournisseur): static
+    {
+        if (!$this->fournisseur->contains($fournisseur)) {
+            $this->fournisseur->add($fournisseur);
+        }
+
+        return $this;
+    }
+
+    public function removeFournisseur(fournisseur $fournisseur): static
+    {
+        $this->fournisseur->removeElement($fournisseur);
 
         return $this;
     }

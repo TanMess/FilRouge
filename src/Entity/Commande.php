@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +42,28 @@ class Commande
 
     #[ORM\Column]
     private ?int $quantite_produit = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?livraison $livraison = null;
+
+    /**
+     * @var Collection<int, facture>
+     */
+    #[ORM\OneToMany(targetEntity: facture::class, mappedBy: 'commande')]
+    private Collection $facture;
+
+    /**
+     * @var Collection<int, Client>
+     */
+    #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'prepare')]
+    private Collection $clients;
+
+    public function __construct()
+    {
+        $this->facture = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +174,75 @@ class Commande
     public function setQuantiteProduit(int $quantite_produit): static
     {
         $this->quantite_produit = $quantite_produit;
+
+        return $this;
+    }
+
+    public function getLivraison(): ?livraison
+    {
+        return $this->livraison;
+    }
+
+    public function setLivraison(?livraison $livraison): static
+    {
+        $this->livraison = $livraison;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, facture>
+     */
+    public function getFacture(): Collection
+    {
+        return $this->facture;
+    }
+
+    public function addFacture(facture $facture): static
+    {
+        if (!$this->facture->contains($facture)) {
+            $this->facture->add($facture);
+            $facture->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(facture $facture): static
+    {
+        if ($this->facture->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getCommande() === $this) {
+                $facture->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Client>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->addPrepare($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            $client->removePrepare($this);
+        }
 
         return $this;
     }

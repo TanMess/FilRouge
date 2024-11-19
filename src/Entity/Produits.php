@@ -40,9 +40,37 @@ class Produits
     #[ORM\OneToMany(targetEntity: Fournisseur::class, mappedBy: 'produit')]
     private Collection $fournisseurs;
 
+    /**
+     * @var Collection<int, Employe>
+     */
+    #[ORM\ManyToMany(targetEntity: Employe::class, mappedBy: 'produit')]
+    private Collection $employes;
+
+    /**
+     * @var Collection<int, tva>
+     */
+    #[ORM\OneToMany(targetEntity: tva::class, mappedBy: 'produits')]
+    private Collection $tva;
+
+    /**
+     * @var Collection<int, categorie>
+     */
+    #[ORM\OneToMany(targetEntity: categorie::class, mappedBy: 'produits')]
+    private Collection $categorie;
+
+    /**
+     * @var Collection<int, Client>
+     */
+    #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'commande')]
+    private Collection $clients;
+
     public function __construct()
     {
         $this->fournisseurs = new ArrayCollection();
+        $this->employes = new ArrayCollection();
+        $this->tva = new ArrayCollection();
+        $this->categorie = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +175,120 @@ class Produits
             if ($fournisseur->getProduit() === $this) {
                 $fournisseur->setProduit(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->addProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): static
+    {
+        if ($this->employes->removeElement($employe)) {
+            $employe->removeProduit($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, tva>
+     */
+    public function getTva(): Collection
+    {
+        return $this->tva;
+    }
+
+    public function addTva(tva $tva): static
+    {
+        if (!$this->tva->contains($tva)) {
+            $this->tva->add($tva);
+            $tva->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTva(tva $tva): static
+    {
+        if ($this->tva->removeElement($tva)) {
+            // set the owning side to null (unless already changed)
+            if ($tva->getProduits() === $this) {
+                $tva->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, categorie>
+     */
+    public function getCategorie(): Collection
+    {
+        return $this->categorie;
+    }
+
+    public function addCategorie(categorie $categorie): static
+    {
+        if (!$this->categorie->contains($categorie)) {
+            $this->categorie->add($categorie);
+            $categorie->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorie(categorie $categorie): static
+    {
+        if ($this->categorie->removeElement($categorie)) {
+            // set the owning side to null (unless already changed)
+            if ($categorie->getProduits() === $this) {
+                $categorie->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Client>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->addCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            $client->removeCommande($this);
         }
 
         return $this;
