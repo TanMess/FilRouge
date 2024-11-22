@@ -1,20 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProduitsController!{% endblock %}
+{% block title %}GreenVillage - Produits
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="container mt-4">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		{% if not produits.items is same as([]) %}
+			<h1>Mes produits</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/brean/FilRouge/src/Controller/ProduitsController.php</code></li>
-        <li>Your template at <code>C:/Users/brean/FilRouge/templates/produits/index.html.twig</code></li>
-    </ul>
-</div>
+			<a href="{{ path('produits.new') }}" class="btn btn-primary">
+				Créer un produit
+			</a>
+
+			<div class="count mt-4">Il y a
+				{{ produits.getTotalItemCount }}
+				produit(s)
+			</div>
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Numéro</th>
+						<th scope="col">Nom</th>
+						<th scope="col">prix</th>
+						<th scope="col">Description</th>
+						<th scope="col">image</th>
+						<th scope="col">active</th>
+						<th scope="col">Modifier</th>
+						<th scope="col">Supprimer</th>
+						<th scope="col">Panier </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for produit in produits %}
+						<tr class="table-primary">
+							<th scope="row">{{ produits.id }}</th>
+							<td>{{ produits.label }}</td>
+							<td>{{ produits.description }}</td>
+							<td>{{ produits.prix }}</td>
+							<td>{{ produits.reference }}</td>
+							<td>{{ produits.image }}</td>
+                            <td>{{ produits.actif }}</td>
+							
+							<td>
+								<a href="{{ path('produits.edit', { id: produits.id }) }}" class="btn btn-info">Modifier</a>
+							</td>
+							<td>
+								<a href="{{ path('produits.delete', { id: produits.id }) }}" class="btn btn-warning">Supprimer</a>
+							</td>
+							<td>
+							<a href="{{path("add", {id: produits.id})}}" class="btn btn-success">
+                        <i class="bi bi-cart-plus"></i> Ajouter
+                    </a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<div class="navigation d-flex justify-content-center mt-4">
+				{{ knp_pagination_render(produits) }}
+			</div>
+		{% else %}
+			<h4>Il n'y a pas de produit</h4>
+
+			<a href="{{ path('produits.new') }}" class="btn btn-primary">
+				Créer un produit
+			</a>
+		{% endif %}
+	</div>
 {% endblock %}
