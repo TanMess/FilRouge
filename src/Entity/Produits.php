@@ -49,19 +49,19 @@ class Produits
     /**
      * @var Collection<int, tva>
      */
-    #[ORM\OneToMany(targetEntity: tva::class, mappedBy: 'produits')]
+    #[ORM\OneToMany(targetEntity: Tva::class, mappedBy: 'produits')]
     private Collection $tva;
 
     /**
      * @var Collection<int, categorie>
      */
-    #[ORM\OneToMany(targetEntity: categorie::class, mappedBy: 'produits')]
+    #[ORM\OneToMany(targetEntity: Categorie::class, mappedBy: 'produits')]
     private Collection $categorie;
 
     /**
      * @var Collection<int, Client>
      */
-    #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'commande')]
+    #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'Commande')]
     private Collection $clients;
 
     public function __construct()

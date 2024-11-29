@@ -7,6 +7,7 @@ use App\Entity\Employe;
 use App\Entity\Produits;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,17 +20,14 @@ class ProduitsType extends AbstractType
             ->add('description')
             ->add('prix')
             ->add('reference')
-            ->add('image')
+            ->add('image', )
             ->add('actif')
-            ->add('employes', EntityType::class, [
-                'class' => Employe::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('clients', EntityType::class, [
-                'class' => Client::class,
-                'choice_label' => 'id',
-                'multiple' => true,
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary mt-4'
+                ],
+                
+                'label' => 'Ajouté le produit'
             ])
         ;
     }

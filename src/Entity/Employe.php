@@ -30,13 +30,13 @@ class Employe
     /**
      * @var Collection<int, produits>
      */
-    #[ORM\ManyToMany(targetEntity: produits::class, inversedBy: 'employes')]
+    #[ORM\ManyToMany(targetEntity: Produits::class, inversedBy: 'employes')]
     private Collection $produit;
 
     /**
      * @var Collection<int, fournisseur>
      */
-    #[ORM\ManyToMany(targetEntity: fournisseur::class, inversedBy: 'employes')]
+    #[ORM\ManyToMany(targetEntity: Fournisseur::class, inversedBy: 'employes')]
     private Collection $fournisseur;
 
     public function __construct()

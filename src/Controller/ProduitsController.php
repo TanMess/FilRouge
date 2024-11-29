@@ -20,18 +20,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 class ProduitsController extends AbstractController
 {
     #[Route('/produit', name: 'app.produits', methods: ['GET'])]
-    public function index(ProduitsRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    public function index(Produits $produits, PaginatorInterface $paginator, Request $request): Response
     {
-        $cache = new FilesystemAdapter();
-        $data = $cache->get('produitCache', function (ItemInterface $item) use($repository){
-            $item->expiresAfter(15);
-            return $repository->findPublicProduits(null);
-        }); 
-        $produits = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            10
-        );
+       
         return $this->render('produits/index.html.twig', [
             'produits' => $produits
         ]);

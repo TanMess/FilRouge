@@ -50,7 +50,7 @@ class Commande
     /**
      * @var Collection<int, facture>
      */
-    #[ORM\OneToMany(targetEntity: facture::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: Facture::class, mappedBy: 'commande')]
     private Collection $facture;
 
     /**

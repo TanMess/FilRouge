@@ -11,17 +11,14 @@
 			</div>
 		{% endfor %}
 
-		{% if not produits.items is same as([]) %}
+		
 			<h1>Mes produits</h1>
 
 			<a href="{{ path('produits.new') }}" class="btn btn-primary">
 				Créer un produit
 			</a>
 
-			<div class="count mt-4">Il y a
-				{{ produits.getTotalItemCount }}
-				produit(s)
-			</div>
+			
 
 			<table class="table table-hover">
 				<thead>
@@ -64,15 +61,6 @@
 				</tbody>
 			</table>
 
-			<div class="navigation d-flex justify-content-center mt-4">
-				{{ knp_pagination_render(produits) }}
-			</div>
-		{% else %}
-			<h4>Il n'y a pas de produit</h4>
-
-			<a href="{{ path('produits.new') }}" class="btn btn-primary">
-				Créer un produit
-			</a>
-		{% endif %}
+			
 	</div>
 {% endblock %}

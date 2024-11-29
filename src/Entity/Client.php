@@ -42,25 +42,25 @@ class Client
     /**
      * @var Collection<int, adresse>
      */
-    #[ORM\ManyToMany(targetEntity: adresse::class, inversedBy: 'clients')]
+    #[ORM\ManyToMany(targetEntity: Adresse::class, inversedBy: 'clients')]
     private Collection $adresse;
 
     /**
      * @var Collection<int, employe>
      */
-    #[ORM\ManyToMany(targetEntity: employe::class, inversedBy: 'clients')]
+    #[ORM\ManyToMany(targetEntity: Employe::class, inversedBy: 'clients')]
     private Collection $employe;
 
     /**
      * @var Collection<int, produits>
      */
-    #[ORM\ManyToMany(targetEntity: produits::class, inversedBy: 'clients')]
+    #[ORM\ManyToMany(targetEntity: Produits::class, inversedBy: 'clients')]
     private Collection $commande;
 
     /**
      * @var Collection<int, commande>
      */
-    #[ORM\ManyToMany(targetEntity: commande::class, inversedBy: 'clients')]
+    #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'clients')]
     private Collection $prepare;
 
     public function __construct()

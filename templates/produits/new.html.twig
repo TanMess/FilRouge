@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+
+{% block title %}GreenVillage - Nouveau produit
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<h1 class="mt-4">Création d'un produit</h1>
+
+		{{ form_start(form) }}
+
+		<div class="form-group">
+			{{ form_label(form.label) }}
+			{{ form_widget(form.label) }}
+			<div class="form-error">
+				{{ form_errors(form.label) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description) }}
+			<div class="form-error">
+				{{ form_errors(form.description) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.prix) }}
+			{{ form_widget(form.prix) }}
+			<div class="form-error">
+				{{ form_errors(form.prix) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.reference) }}
+			{{ form_widget(form.reference) }}
+			<div class="form-error">
+				{{ form_errors(form.reference) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.image) }}
+			{{ form_widget(form.image) }}
+			<div class="form-error">
+				{{ form_errors(form.image) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.actif) }}
+			{{ form_widget(form.actif) }}
+			<div class="form-error">
+				{{ form_errors(form.actif) }}
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
